@@ -32,9 +32,7 @@
 		// "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */
 		"types": [
 			"@cloudflare/workers-types",
-			"jest",
-			"@jest/globals",
-			"jest-environment-miniflare/globals"
+			"bun-types"
 		] /* Specify type package names to be included without being referenced in a source file. */,
 		// "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
 		"resolveJsonModule": true /* Enable importing .json files */,
@@ -97,8 +95,5 @@
 		// "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */
 	},
-	"include": [
-		"**/*.ts",
-		".eslintrc.cjs"
-	]
+	"include": ["**/*.ts", ".eslintrc.cjs"]
 }

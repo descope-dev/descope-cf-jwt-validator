@@ -27,8 +27,9 @@ export const handleRequest = async (request: Request, env: Env) => {
 	// if we didn't find a token in the Authorization header, check the DS cookie
 	if (jwt === "") {
 		const cookies = cookie.parse(request.headers.get("Cookie") || "");
-		if (cookies[env.DESCOPE_SESSION_COOKIE] != null) {
-			jwt = cookies[env.DESCOPE_SESSION_COOKIE];
+		const sessionCookie = cookies[env.DESCOPE_SESSION_COOKIE];
+		if (sessionCookie != null) {
+			jwt = sessionCookie;
 		}
 	}
 	// if we still don't have a token, return 401
@@ -38,7 +39,7 @@ export const handleRequest = async (request: Request, env: Env) => {
 
 	try {
 		await jose.jwtVerify(jwt, JWKS);
-	} catch (e) {
+	} catch {
 		return new Response("Invalid authorization token", { status: 401 });
 	}
 	return fetch(request);

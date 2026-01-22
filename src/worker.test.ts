@@ -21,17 +21,17 @@ describe("handleRequest", () => {
 		if (!testUserOK) {
 			throw new Error(`Failed to create test user: ${testUserData}`);
 		}
-		const { ok: OTPOK, data: OTPData } =
-			await descope.management.user.generateOTPForTestUser("email", testLoginId);
+		const { ok: OTPOK, data: OTPData } = await descope.management.user.generateOTPForTestUser(
+			"email",
+			testLoginId,
+		);
 		if (!OTPOK || !OTPData?.code) {
 			throw new Error(`Failed to generate OTP for test user`);
 		}
 		console.log("OTPData", OTPData);
 		const { ok, data } = await descope.otp.verify.email(OTPData.loginId, OTPData.code);
 		if (!ok || !data) {
-			throw new Error(
-				`Failed to verify OTP for test user` + JSON.stringify({ ok, data }),
-			);
+			throw new Error(`Failed to verify OTP for test user` + JSON.stringify({ ok, data }));
 		}
 		token = data;
 	});

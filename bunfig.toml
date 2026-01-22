@@ -1,0 +1,8 @@
+[test]
+preload = ["./src/worker.ts"]
+coverage = true
+coverageThreshold = 100
+
+[install]
+# Bun specific install options
+peer = true
