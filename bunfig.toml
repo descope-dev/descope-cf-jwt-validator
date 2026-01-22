@@ -3,6 +3,10 @@ preload = ["./src/worker.ts"]
 coverage = true
 coverageThreshold = 100
 
+[test.env]
+DESCOPE_PROJECT_ID = { $env = "DESCOPE_PROJECT_ID" }
+DESCOPE_MANAGEMENT_KEY = { $env = "DESCOPE_MANAGEMENT_KEY" }
+
 [install]
 # Bun specific install options
 peer = true
