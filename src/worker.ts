@@ -1,7 +1,6 @@
 import * as cookie from "cookie";
 import * as jose from "jose";
 
-/* istanbul ignore next */
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
 		return handleRequest(request, env);
@@ -19,7 +18,7 @@ export const handleRequest = async (request: Request, env: Env) => {
 
 	// prefer authorization token over cookie
 	if (authHeader?.includes(" ")) {
-		jwt = authHeader.split(" ")[1];
+		jwt = authHeader.split(" ")[1] ?? "";
 	} else {
 		jwt = authHeader || "";
 	}

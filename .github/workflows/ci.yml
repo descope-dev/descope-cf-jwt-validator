@@ -52,7 +52,8 @@ jobs:
         env:
           DESCOPE_PROJECT_ID: ${{ secrets.DESCOPE_PROJECT_ID }}
           DESCOPE_MANAGEMENT_KEY: ${{ secrets.DESCOPE_MANAGEMENT_KEY }}
-        run: bun run test
+        run: bun test --coverage --coverage-reporter=lcov
+
       - name: Coverage check
         uses: devmasx/coverage-check-action@v1.2.0
         with:
