@@ -1,4 +1,4 @@
 {
 	"jest.jestCommandLine": "yarn test",
-	"jest.rootPath": ".",
+	"jest.rootPath": "."
 }

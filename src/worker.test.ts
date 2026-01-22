@@ -1,5 +1,6 @@
 import Descope, { JWTResponse } from "@descope/node-sdk";
-import { handleRequest } from "./worker";
+import worker, { handleRequest } from "./worker";
+import { describe, beforeAll, afterAll, expect, it } from "bun:test";
 
 const env = {
 	DESCOPE_BASE_URL: "https://api.descope.com",
@@ -21,17 +22,16 @@ describe("handleRequest", () => {
 		if (!testUserOK) {
 			throw new Error(`Failed to create test user: ${testUserData}`);
 		}
-		const { ok: OTPOK, data: OTPData } =
-			await descope.management.user.generateOTPForTestUser("email", testLoginId);
+		const { ok: OTPOK, data: OTPData } = await descope.management.user.generateOTPForTestUser(
+			"email",
+			testLoginId,
+		);
 		if (!OTPOK || !OTPData?.code) {
 			throw new Error(`Failed to generate OTP for test user`);
 		}
-		console.log("OTPData", OTPData);
 		const { ok, data } = await descope.otp.verify.email(OTPData.loginId, OTPData.code);
 		if (!ok || !data) {
-			throw new Error(
-				`Failed to verify OTP for test user` + JSON.stringify({ ok, data }),
-			);
+			throw new Error(`Failed to verify OTP for test user` + JSON.stringify({ ok, data }));
 		}
 		token = data;
 	});
@@ -74,6 +74,14 @@ describe("handleRequest", () => {
 			}),
 			env,
 		);
+		expect(response.status).toBe(200);
+	});
+
+	it("default export fetch works", async () => {
+		const headers = new Headers();
+		headers.set("authorization", `Bearer ${token.sessionJwt}`);
+
+		const response = await worker.fetch(new Request(testUrl, { headers }), env);
 		expect(response.status).toBe(200);
 	});
 
